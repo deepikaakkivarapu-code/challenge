@@ -6,110 +6,195 @@
   <title>YouTube Video Analytics Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background-color: #eef2f5; color: #2c3e50; }
-    header { background-color: #1e272e; color: #f5f6fa; padding: 20px; text-align: center; }
-    .hero { width: 100%; max-height: 180px; object-fit: cover; }
-    .container { padding: 20px; }
-    .search-bar { width: 100%; max-width: 400px; margin: 20px auto; display: flex; }
-    .search-bar input {
-      flex: 1; padding: 10px; border: 2px solid #57606f;
-      border-radius: 4px 0 0 4px; outline: none;
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      color: #2c3e50;
     }
-    .search-bar button {
-      padding: 10px 16px; border: none; background-color: #3742fa;
-      color: #fff; border-radius: 0 4px 4px 0; cursor: pointer;
+
+    header {
+      background-color: #c0392b;
+      color: white;
+      padding: 20px;
+      text-align: center;
     }
-    .search-bar button:hover { background-color: #2f3542; }
-    .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-    .card { background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-    .card h3 { margin-top: 0; color: #1e272e; }
-    canvas { width: 100% !important; height: 240px !important; }
-    ul { list-style-type: none; padding-left: 0; }
+
+    .hero-image {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .search-container {
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    .search-container input {
+      width: 300px;
+      padding: 10px;
+      border: 2px solid #c0392b;
+      border-radius: 4px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #c0392b;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 250px !important;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
     ul li {
-      background: #dff9fb; margin-bottom: 8px; padding: 8px; border-radius: 4px;
+      margin-bottom: 8px;
+      background-color: #f9e79f;
+      padding: 8px;
+      border-radius: 4px;
     }
-    footer { background-color: #1e272e; color: #f5f6fa; text-align: center; padding: 12px; margin-top: 30px; }
+
+    footer {
+      background-color: #c0392b;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <header><h1>YouTube Video Analytics Dashboard</h1></header>
-  <img class="hero" src="https://via.placeholder.com/1200x180.png?text=YouTube+Analytics+Overview" alt="Hero Banner">
+  <header>
+    <h1>YouTube Video Analytics Dashboard</h1>
+  </header>
 
-  <div class="container">
-    <div class="search-bar">
-      <input type="text" id="search" placeholder="Search videos by title...">
-      <button onclick="applySearch()">Search</button>
-    </div>
+  <!-- Hero Image -->
+  <img class="hero-image" src="https://via.placeholder.com/1200x220.png?text=YouTube+Analytics+Dashboard+Preview" alt="Dashboard Preview" />
 
-    <div class="dashboard" id="dashboard">
-      <!-- Cards will render here -->
-    </div>
+  <!-- Search -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by video title..." oninput="renderDashboard()">
   </div>
 
-  <footer>&copy; 2025 YouTube Analytics Demo</footer>
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard"></div>
+
+  <footer>
+    &copy; 2025 YouTube Analytics Dashboard Demo
+  </footer>
 
   <script>
     const videoData = [
       { title: "AI Explainer", views: 1500, likes: 200, watchTime: 400 },
-      { title: "HTML Tutorial", views: 1100, likes: 140, watchTime: 320 },
-      { title: "BTS Snippets", views: 600, likes: 80, watchTime: 210 },
+      { title: "HTML Basics", views: 1100, likes: 140, watchTime: 320 },
+      { title: "BTS Vlog", views: 600, likes: 80, watchTime: 210 },
       { title: "Product Launch", views: 1800, likes: 300, watchTime: 520 },
-      { title: "Live Q&A", views: 800, likes: 110, watchTime: 260 }
+      { title: "Live Q&A", views: 800, likes: 110, watchTime: 260 },
+      { title: "CSS Flexbox Guide", views: 1250, likes: 160, watchTime: 340 }
     ];
 
-    function renderDashboard(data) {
-      const container = document.getElementById("dashboard");
-      container.innerHTML = `
-        <div class="card"><h3>Views Per Video</h3><canvas id="viewsChart"></canvas></div>
-        <div class="card"><h3>Likes Per Video</h3><canvas id="likesChart"></canvas></div>
-        <div class="card"><h3>Watch Time (mins)</h3><canvas id="watchTimeChart"></canvas></div>
-        <div class="card"><h3>Top Performing Videos</h3><ul id="topVideos"></ul></div>
+    function renderDashboard() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = videoData.filter(v => v.title.toLowerCase().includes(query));
+      const labels = filtered.map(v => v.title);
+      const views = filtered.map(v => v.views);
+      const likes = filtered.map(v => v.likes);
+      const watchTime = filtered.map(v => v.watchTime);
+
+      document.getElementById('dashboard').innerHTML = `
+        <div class="card">
+          <h3>Views Per Video</h3>
+          <canvas id="viewsChart"></canvas>
+        </div>
+        <div class="card">
+          <h3>Likes Per Video</h3>
+          <canvas id="likesChart"></canvas>
+        </div>
+        <div class="card">
+          <h3>Watch Time (mins)</h3>
+          <canvas id="watchChart"></canvas>
+        </div>
+        <div class="card">
+          <h3>Top Performing Videos</h3>
+          <ul id="topVideosList"></ul>
+        </div>
       `;
-      const labels = data.map(v => v.title);
-      const views = data.map(v => v.views);
-      const likes = data.map(v => v.likes);
-      const watchTimes = data.map(v => v.watchTime);
 
+      // Views Chart
       new Chart(document.getElementById("viewsChart"), {
-        type: "bar", data: { labels, datasets: [{ label: "Views", data: views, backgroundColor: "#3742fa" }] },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-      });
-
-      new Chart(document.getElementById("likesChart"), {
-        type: "bar", data: { labels, datasets: [{ label: "Likes", data: likes, backgroundColor: "#44bd32" }] },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-      });
-
-      new Chart(document.getElementById("watchTimeChart"), {
-        type: "line", data: {
+        type: 'bar',
+        data: {
           labels,
           datasets: [{
-            label: "Watch Time (mins)",
-            data: watchTimes,
-            fill: true, backgroundColor: "rgba(231, 76, 60, 0.2)", borderColor: "#e74c3c"
+            label: 'Views',
+            data: views,
+            backgroundColor: '#3498db'
           }]
         },
         options: { responsive: true, scales: { y: { beginAtZero: true } } }
       });
 
-      const topList = document.getElementById("topVideos");
-      data.slice().sort((a,b) => b.views - a.views).slice(0,3).forEach(v => {
-        const li = document.createElement("li");
-        li.textContent = `${v.title} — ${v.views} views`;
+      // Likes Chart
+      new Chart(document.getElementById("likesChart"), {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Likes',
+            data: likes,
+            backgroundColor: '#2ecc71'
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+
+      // Watch Time Chart
+      new Chart(document.getElementById("watchChart"), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Watch Time',
+            data: watchTime,
+            borderColor: '#e74c3c',
+            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+            fill: true
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+
+      // Top Performing Videos
+      const topList = document.getElementById('topVideosList');
+      filtered.sort((a, b) => b.views - a.views).slice(0, 3).forEach(video => {
+        const li = document.createElement('li');
+        li.textContent = `${video.title} — ${video.views} views`;
         topList.appendChild(li);
       });
     }
 
-    function applySearch() {
-      const query = document.getElementById("search").value.trim().toLowerCase();
-      const filtered = videoData.filter(v => v.title.toLowerCase().includes(query));
-      renderDashboard(filtered.length ? filtered : videoData);
-    }
-
     // Initial render
-    renderDashboard(videoData);
+    renderDashboard();
   </script>
-
 </body>
 </html>
