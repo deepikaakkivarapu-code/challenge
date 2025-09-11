@@ -2,178 +2,228 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Video Analytics Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fun & Weird Dashboards</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3f3f3;
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
     }
     header {
-      background: #222;
+      background: #1f1f1f;
       color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 1.5rem;
+      text-align: center;
     }
-    header input[type="text"] {
-      padding: 0.5rem;
-      width: 300px;
-      border-radius: 5px;
-      border: none;
+    header h1 {
+      margin: 0 0 0.5rem;
     }
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
     }
-    .platform {
-      border-radius: 10px;
-      padding: 1rem;
+    .section {
+      border-radius: 12px;
+      padding: 1.5rem;
       color: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
-    .youtube { background: #FF0000; }
-    .instagram { background: #C13584; }
-    .facebook { background: #3b5998; }
-    .twitter { background: #1DA1F2; }
-    .skype { background: #00AFF0; }
+    h2 {
+      margin-top: 0;
+    }
 
-    .metrics {
-      margin: 1rem 0;
-    }
+    /* Section backgrounds */
+    .netflix { background: #E50914; }
+    .brainstorm { background: #6A1B9A; }
+    .meme { background: #FB8C00; }
+    .stalker { background: #263238; }
+    .plant { background: #388E3C; }
 
     canvas {
       background: white;
       border-radius: 5px;
+      margin-top: 1rem;
+      width: 100% !important;
+      height: 220px !important;
     }
 
-    iframe {
-      width: 100%;
-      height: 180px;
-      border: none;
-      border-radius: 5px;
+    .info {
       margin-top: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
 
-    .tips {
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #222;
+      color: white;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 0.5rem;
-      border-radius: 5px;
-    }
-
-    .kpi {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
     }
 
     @media (max-width: 500px) {
-      header input[type="text"] {
-        width: 150px;
+      .dashboard {
+        padding: 1rem;
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>Video Analytics Dashboard</h1>
-    <input type="text" placeholder="Search Platform or Video..." id="searchBar" onkeyup="searchPlatform()">
+    <h1>🧩 Fun & Weird Web Dashboards</h1>
+    <p>Track your quirks, creativity, memes, data leaks, and plant health — all in one place!</p>
   </header>
 
-  <div class="dashboard" id="dashboard">
-    
-    <!-- YouTube -->
-    <div class="platform youtube" data-platform="youtube">
-      <h2>YouTube</h2>
-      <div class="kpi">Views: 1.2M | Likes: 80K | Comments: 10K</div>
-      <canvas id="youtubeChart"></canvas>
-      <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-      <div class="tips">🔍 Tip: Use engaging thumbnails and consistent upload schedule to boost retention.</div>
+  <div class="dashboard">
+
+    <!-- 🍿 Netflix Binge Stats -->
+    <div class="section netflix">
+      <h2>🍿 Netflix Binge Stats</h2>
+      <p class="info">
+        You've watched <strong>487 hours</strong> of Netflix this year.<br>
+        Estimated remote clicks burned <strong>132 fake calories</strong>.<br>
+        Top genre: <em>Dark Comedy</em>
+      </p>
+      <canvas id="netflixChart"></canvas>
     </div>
 
-    <!-- Instagram -->
-    <div class="platform instagram" data-platform="instagram">
-      <h2>Instagram</h2>
-      <div class="kpi">Views: 850K | Likes: 65K | Shares: 9K</div>
-      <canvas id="instagramChart"></canvas>
-      <iframe src="https://www.youtube.com/embed/5qap5aO4i9A"></iframe>
-      <div class="tips">📸 Tip: Stories and Reels have higher engagement than static posts.</div>
+    <!-- 🧠 Brainstorm Dashboard -->
+    <div class="section brainstorm">
+      <h2>🧠 Brainstorm Dashboard</h2>
+      <p class="info">
+        Today's AI Prompt: <strong>"Invisible keyboard for pigeons"</strong><br>
+        Ideas this week: <strong>15</strong> 💡 | Success Rate: <strong>27%</strong><br>
+        Favorite category: <em>Gadget Prototypes</em>
+      </p>
+      <canvas id="brainChart"></canvas>
     </div>
 
-    <!-- Facebook -->
-    <div class="platform facebook" data-platform="facebook">
-      <h2>Facebook</h2>
-      <div class="kpi">Views: 900K | Reactions: 75K | Shares: 15K</div>
-      <canvas id="facebookChart"></canvas>
-      <iframe src="https://www.youtube.com/embed/oHg5SJYRHA0"></iframe>
-      <div class="tips">📈 Tip: Post videos between 2-3 minutes for optimal reach.</div>
+    <!-- 📊 Meme Trend Tracker -->
+    <div class="section meme">
+      <h2>📊 Meme Trend Tracker</h2>
+      <p class="info">
+        Memes most shared today:<br>
+        - “Me explaining vs Mom”<br>
+        - “NPC Wojak”<br>
+        - “Is this a pigeon?”<br>
+        Source: Reddit, X, 9GAG
+      </p>
+      <canvas id="memeChart"></canvas>
     </div>
 
-    <!-- Twitter -->
-    <div class="platform twitter" data-platform="twitter">
-      <h2>Twitter</h2>
-      <div class="kpi">Views: 400K | Retweets: 10K | Likes: 20K</div>
-      <canvas id="twitterChart"></canvas>
-      <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk"></iframe>
-      <div class="tips">🐦 Tip: Use hashtags and short captions to drive interaction.</div>
+    <!-- 🕵️‍♂️ Internet Stalker View -->
+    <div class="section stalker">
+      <h2>🕵️‍♂️ Internet Stalker View</h2>
+      <p class="info">
+        You’re leaking ~<strong>83%</strong> of your data online.<br>
+        Top leaks: <em>Cookies 🍪, Browser Type, Mouse Movement</em><br>
+        Detected trackers: <strong>37</strong> (scary, huh?)
+      </p>
+      <canvas id="stalkerChart"></canvas>
     </div>
 
-    <!-- Skype -->
-    <div class="platform skype" data-platform="skype">
-      <h2>Skype</h2>
-      <div class="kpi">Calls: 12K | Video Mins: 2M | Active Users: 500K</div>
-      <canvas id="skypeChart"></canvas>
-      <iframe src="https://www.youtube.com/embed/M7lc1UVf-VE"></iframe>
-      <div class="tips">📞 Tip: Use Skype Meet Now for quick video collaboration.</div>
+    <!-- 🪴 Plant Health Dashboard -->
+    <div class="section plant">
+      <h2>🪴 Plant Health Dashboard</h2>
+      <p class="info">
+        Plant: <strong>Monstera Deliciosa</strong><br>
+        Water: <strong>65%</strong> 💧 | Sunlight: <strong>72%</strong> ☀️<br>
+        Soil nutrients good 🌱<br>
+        Last watered: <em>2 days ago</em>
+      </p>
+      <canvas id="plantChart"></canvas>
     </div>
 
   </div>
 
+  <footer>
+    &copy; 2025 Fun Dashboards Inc. | All metrics are (mostly) fictional 😄
+  </footer>
+
   <script>
-    const chartConfig = (labels, data, label, color) => ({
-      type: 'bar',
+    // 🍿 Netflix Chart
+    new Chart(document.getElementById('netflixChart'), {
+      type: 'doughnut',
       data: {
-        labels,
+        labels: ['Drama', 'Comedy', 'Sci-Fi', 'Action', 'Documentary'],
         datasets: [{
-          label,
-          data,
-          backgroundColor: color,
+          data: [140, 90, 80, 100, 77],
+          backgroundColor: ['#FFD54F', '#BA68C8', '#4FC3F7', '#FF8A65', '#A5D6A7']
         }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true }
-        }
       }
     });
 
-    const loadCharts = () => {
-      new Chart(document.getElementById('youtubeChart'), chartConfig(['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], [300, 500, 400, 700, 600], 'Views', '#fff'));
-      new Chart(document.getElementById('instagramChart'), chartConfig(['Reels', 'Stories', 'Posts'], [500, 700, 400], 'Engagement', '#fff'));
-      new Chart(document.getElementById('facebookChart'), chartConfig(['Likes', 'Shares', 'Comments'], [450, 300, 200], 'Metrics', '#fff'));
-      new Chart(document.getElementById('twitterChart'), chartConfig(['Retweets', 'Likes', 'Replies'], [150, 200, 100], 'Engagement', '#fff'));
-      new Chart(document.getElementById('skypeChart'), chartConfig(['Calls', 'Video Min', 'Users'], [1000, 2000, 500], 'Usage', '#fff'));
-    };
+    // 🧠 Brainstorm Chart
+    new Chart(document.getElementById('brainChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Gadgets', 'Stories', 'Apps', 'Inventions'],
+        datasets: [{
+          label: 'Ideas',
+          data: [6, 4, 3, 2],
+          backgroundColor: '#CE93D8'
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false }},
+        scales: { y: { beginAtZero: true } }
+      }
+    });
 
-    window.onload = loadCharts;
+    // 📊 Meme Trend Chart
+    new Chart(document.getElementById('memeChart'), {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        datasets: [{
+          label: 'Shares',
+          data: [180, 220, 300, 280, 350],
+          backgroundColor: 'rgba(255,255,255,0.3)',
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        scales: { y: { beginAtZero: true } }
+      }
+    });
 
-    function searchPlatform() {
-      const input = document.getElementById("searchBar").value.toLowerCase();
-      const platforms = document.querySelectorAll(".platform");
+    // 🕵️‍♂️ Stalker Chart
+    new Chart(document.getElementById('stalkerChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Cookies', 'Location', 'Microphone', 'Browser Info', 'Mouse Data'],
+        datasets: [{
+          data: [25, 20, 10, 18, 27],
+          backgroundColor: ['#78909C', '#90A4AE', '#546E7A', '#B0BEC5', '#CFD8DC']
+        }]
+      }
+    });
 
-      platforms.forEach(platform => {
-        const name = platform.dataset.platform;
-        platform.style.display = name.includes(input) ? "block" : "none";
-      });
-    }
+    // 🪴 Plant Chart
+    new Chart(document.getElementById('plantChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Water 💧', 'Sun ☀️', 'Soil 🌱'],
+        datasets: [{
+          label: 'Health %',
+          data: [65, 72, 90],
+          backgroundColor: ['#81C784', '#FFF176', '#AED581']
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false }},
+        scales: { y: { beginAtZero: true, max: 100 } }
+      }
+    });
   </script>
 </body>
 </html>
