@@ -3,198 +3,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YouTube Video Analytics Dashboard</title>
+  <title>Video Analytics Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f2f5;
-      color: #2c3e50;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
     }
-
     header {
-      background-color: #c0392b;
+      background: #222;
       color: white;
-      padding: 20px;
-      text-align: center;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
-    .hero-image {
-      width: 100%;
-      max-height: 220px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .search-container {
-      text-align: center;
-      margin: 20px auto;
-    }
-
-    .search-container input {
+    header input[type="text"] {
+      padding: 0.5rem;
       width: 300px;
-      padding: 10px;
-      border: 2px solid #c0392b;
-      border-radius: 4px;
+      border-radius: 5px;
+      border: none;
     }
-
     .dashboard {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      padding: 20px;
+      gap: 1rem;
+      padding: 1rem;
     }
-
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    .platform {
+      border-radius: 10px;
+      padding: 1rem;
+      color: white;
     }
+    .youtube { background: #FF0000; }
+    .instagram { background: #C13584; }
+    .facebook { background: #3b5998; }
+    .twitter { background: #1DA1F2; }
+    .skype { background: #00AFF0; }
 
-    .card h3 {
-      margin-top: 0;
-      color: #c0392b;
+    .metrics {
+      margin: 1rem 0;
     }
 
     canvas {
-      width: 100% !important;
-      height: 250px !important;
+      background: white;
+      border-radius: 5px;
     }
 
-    ul {
-      padding-left: 20px;
+    iframe {
+      width: 100%;
+      height: 180px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 0.5rem;
     }
 
-    ul li {
-      margin-bottom: 8px;
-      background-color: #f9e79f;
-      padding: 8px;
-      border-radius: 4px;
+    .tips {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem;
+      border-radius: 5px;
     }
 
-    footer {
-      background-color: #c0392b;
-      color: white;
-      text-align: center;
-      padding: 10px;
+    .kpi {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 500px) {
+      header input[type="text"] {
+        width: 150px;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>YouTube Video Analytics Dashboard</h1>
+    <h1>Video Analytics Dashboard</h1>
+    <input type="text" placeholder="Search Platform or Video..." id="searchBar" onkeyup="searchPlatform()">
   </header>
 
-  <!-- Hero Image -->
-  <img class="hero-image" src="https://via.placeholder.com/1200x220.png?text=YouTube+Analytics+Dashboard+Preview" alt="Dashboard Preview" />
+  <div class="dashboard" id="dashboard">
+    
+    <!-- YouTube -->
+    <div class="platform youtube" data-platform="youtube">
+      <h2>YouTube</h2>
+      <div class="kpi">Views: 1.2M | Likes: 80K | Comments: 10K</div>
+      <canvas id="youtubeChart"></canvas>
+      <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+      <div class="tips">🔍 Tip: Use engaging thumbnails and consistent upload schedule to boost retention.</div>
+    </div>
 
-  <!-- Search -->
-  <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search by video title..." oninput="renderDashboard()">
+    <!-- Instagram -->
+    <div class="platform instagram" data-platform="instagram">
+      <h2>Instagram</h2>
+      <div class="kpi">Views: 850K | Likes: 65K | Shares: 9K</div>
+      <canvas id="instagramChart"></canvas>
+      <iframe src="https://www.youtube.com/embed/5qap5aO4i9A"></iframe>
+      <div class="tips">📸 Tip: Stories and Reels have higher engagement than static posts.</div>
+    </div>
+
+    <!-- Facebook -->
+    <div class="platform facebook" data-platform="facebook">
+      <h2>Facebook</h2>
+      <div class="kpi">Views: 900K | Reactions: 75K | Shares: 15K</div>
+      <canvas id="facebookChart"></canvas>
+      <iframe src="https://www.youtube.com/embed/oHg5SJYRHA0"></iframe>
+      <div class="tips">📈 Tip: Post videos between 2-3 minutes for optimal reach.</div>
+    </div>
+
+    <!-- Twitter -->
+    <div class="platform twitter" data-platform="twitter">
+      <h2>Twitter</h2>
+      <div class="kpi">Views: 400K | Retweets: 10K | Likes: 20K</div>
+      <canvas id="twitterChart"></canvas>
+      <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk"></iframe>
+      <div class="tips">🐦 Tip: Use hashtags and short captions to drive interaction.</div>
+    </div>
+
+    <!-- Skype -->
+    <div class="platform skype" data-platform="skype">
+      <h2>Skype</h2>
+      <div class="kpi">Calls: 12K | Video Mins: 2M | Active Users: 500K</div>
+      <canvas id="skypeChart"></canvas>
+      <iframe src="https://www.youtube.com/embed/M7lc1UVf-VE"></iframe>
+      <div class="tips">📞 Tip: Use Skype Meet Now for quick video collaboration.</div>
+    </div>
+
   </div>
 
-  <!-- Dashboard -->
-  <div class="dashboard" id="dashboard"></div>
-
-  <footer>
-    &copy; 2025 YouTube Analytics Dashboard Demo
-  </footer>
-
   <script>
-    const videoData = [
-      { title: "AI Explainer", views: 1500, likes: 200, watchTime: 400 },
-      { title: "HTML Basics", views: 1100, likes: 140, watchTime: 320 },
-      { title: "BTS Vlog", views: 600, likes: 80, watchTime: 210 },
-      { title: "Product Launch", views: 1800, likes: 300, watchTime: 520 },
-      { title: "Live Q&A", views: 800, likes: 110, watchTime: 260 },
-      { title: "CSS Flexbox Guide", views: 1250, likes: 160, watchTime: 340 }
-    ];
+    const chartConfig = (labels, data, label, color) => ({
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label,
+          data,
+          backgroundColor: color,
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
 
-    function renderDashboard() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = videoData.filter(v => v.title.toLowerCase().includes(query));
-      const labels = filtered.map(v => v.title);
-      const views = filtered.map(v => v.views);
-      const likes = filtered.map(v => v.likes);
-      const watchTime = filtered.map(v => v.watchTime);
+    const loadCharts = () => {
+      new Chart(document.getElementById('youtubeChart'), chartConfig(['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], [300, 500, 400, 700, 600], 'Views', '#fff'));
+      new Chart(document.getElementById('instagramChart'), chartConfig(['Reels', 'Stories', 'Posts'], [500, 700, 400], 'Engagement', '#fff'));
+      new Chart(document.getElementById('facebookChart'), chartConfig(['Likes', 'Shares', 'Comments'], [450, 300, 200], 'Metrics', '#fff'));
+      new Chart(document.getElementById('twitterChart'), chartConfig(['Retweets', 'Likes', 'Replies'], [150, 200, 100], 'Engagement', '#fff'));
+      new Chart(document.getElementById('skypeChart'), chartConfig(['Calls', 'Video Min', 'Users'], [1000, 2000, 500], 'Usage', '#fff'));
+    };
 
-      document.getElementById('dashboard').innerHTML = `
-        <div class="card">
-          <h3>Views Per Video</h3>
-          <canvas id="viewsChart"></canvas>
-        </div>
-        <div class="card">
-          <h3>Likes Per Video</h3>
-          <canvas id="likesChart"></canvas>
-        </div>
-        <div class="card">
-          <h3>Watch Time (mins)</h3>
-          <canvas id="watchChart"></canvas>
-        </div>
-        <div class="card">
-          <h3>Top Performing Videos</h3>
-          <ul id="topVideosList"></ul>
-        </div>
-      `;
+    window.onload = loadCharts;
 
-      // Views Chart
-      new Chart(document.getElementById("viewsChart"), {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Views',
-            data: views,
-            backgroundColor: '#3498db'
-          }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-      });
+    function searchPlatform() {
+      const input = document.getElementById("searchBar").value.toLowerCase();
+      const platforms = document.querySelectorAll(".platform");
 
-      // Likes Chart
-      new Chart(document.getElementById("likesChart"), {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Likes',
-            data: likes,
-            backgroundColor: '#2ecc71'
-          }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-      });
-
-      // Watch Time Chart
-      new Chart(document.getElementById("watchChart"), {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Watch Time',
-            data: watchTime,
-            borderColor: '#e74c3c',
-            backgroundColor: 'rgba(231, 76, 60, 0.1)',
-            fill: true
-          }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-      });
-
-      // Top Performing Videos
-      const topList = document.getElementById('topVideosList');
-      filtered.sort((a, b) => b.views - a.views).slice(0, 3).forEach(video => {
-        const li = document.createElement('li');
-        li.textContent = `${video.title} — ${video.views} views`;
-        topList.appendChild(li);
+      platforms.forEach(platform => {
+        const name = platform.dataset.platform;
+        platform.style.display = name.includes(input) ? "block" : "none";
       });
     }
-
-    // Initial render
-    renderDashboard();
   </script>
 </body>
 </html>
