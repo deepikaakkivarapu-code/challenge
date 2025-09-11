@@ -2,69 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>🎥 Centralized Video Analytics Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎥 Centralized Video Analytics Dashboard with Logins</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: #f0f0f0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #fafafa;
     }
-
     header {
-      background-color: #111;
+      background-color: #222;
       color: white;
       padding: 1.5rem;
       text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-
     header h1 {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
-
     header input {
-      padding: 0.6rem;
-      width: 300px;
+      padding: 0.7rem;
+      width: 320px;
+      max-width: 90%;
       border-radius: 6px;
       border: none;
       font-size: 1rem;
     }
-
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
       gap: 1.5rem;
       padding: 2rem;
     }
-
     .card {
       background: white;
       padding: 1.5rem;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       transition: transform 0.2s;
+      position: relative;
     }
-
     .card:hover {
       transform: translateY(-5px);
     }
+    .login-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: background-color 0.2s;
+    }
+    .login-btn:hover {
+      opacity: 0.85;
+    }
 
-    .youtube { border-left: 6px solid #FF0000; background-color: #fff5f5; }
-    .instagram { border-left: 6px solid #C13584; background-color: #fff0fa; }
-    .facebook { border-left: 6px solid #3b5998; background-color: #f0f4ff; }
-    .twitter { border-left: 6px solid #1DA1F2; background-color: #eaf6ff; }
-    .skype { border-left: 6px solid #00AFF0; background-color: #e0f7fa; }
+    /* Platform styles */
+    .youtube {
+      border-left: 6px solid #FF0000;
+      background-color: #fff5f5;
+    }
+    .instagram {
+      border-left: 6px solid #C13584;
+      background-color: #fff0fa;
+    }
+    .facebook {
+      border-left: 6px solid #3b5998;
+      background-color: #f0f4ff;
+    }
+    .twitter {
+      border-left: 6px solid #1DA1F2;
+      background-color: #eaf6ff;
+    }
+    .skype {
+      border-left: 6px solid #00AFF0;
+      background-color: #e0f7fa;
+    }
 
     h2 {
       margin-top: 0;
+      margin-bottom: 0.8rem;
     }
-
     .metrics {
       font-size: 0.95rem;
       margin-bottom: 1rem;
+      line-height: 1.3;
     }
-
     .tips {
       background: #eee;
       padding: 0.7rem;
@@ -72,7 +104,6 @@
       border-radius: 6px;
       font-size: 0.9rem;
     }
-
     iframe {
       width: 100%;
       height: 180px;
@@ -80,48 +111,57 @@
       border: none;
       border-radius: 8px;
     }
-
     canvas {
       margin-top: 1rem;
-      width: 100%;
+      width: 100% !important;
       height: 220px !important;
     }
-
     @media (max-width: 500px) {
       header input {
         width: 90%;
       }
     }
-
   </style>
 </head>
 <body>
 
   <header>
     <h1>🎬 Centralized Video Analytics Dashboard</h1>
-    <p>Track key video metrics across platforms</p>
-    <input type="text" id="searchBar" placeholder="Search platform..." onkeyup="filterCards()" />
+    <p>Track video metrics & login to your social platforms</p>
+    <input
+      type="text"
+      id="searchBar"
+      placeholder="Search platform..."
+      onkeyup="filterCards()"
+    />
   </header>
 
   <div class="dashboard" id="dashboard">
 
     <!-- YouTube -->
     <div class="card youtube" data-platform="youtube">
+      <button class="login-btn" onclick="alert('YouTube API login requires OAuth server flow')">Login</button>
       <h2>📺 YouTube</h2>
       <div class="metrics">
-        Views: <strong>1.5M</strong> | Watch Time: <strong>5.2K hrs</strong><br>
+        Views: <strong>1.5M</strong> | Watch Time: <strong>5.2K hrs</strong><br />
         Likes: <strong>82K</strong> | Comments: <strong>10.5K</strong>
       </div>
-      <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk"></iframe>
+      <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk" allowfullscreen></iframe>
       <canvas id="youtubeChart"></canvas>
       <div class="tips">📌 Tip: Use eye-catching thumbnails & engaging intros.</div>
     </div>
 
     <!-- Instagram -->
     <div class="card instagram" data-platform="instagram">
+      <button
+        class="login-btn"
+        onclick="window.open('https://api.instagram.com/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=user_profile,user_media&response_type=code', '_blank')"
+      >
+        Login
+      </button>
       <h2>📸 Instagram</h2>
       <div class="metrics">
-        Views: <strong>980K</strong> | Reels Plays: <strong>410K</strong><br>
+        Views: <strong>980K</strong> | Reels Plays: <strong>410K</strong><br />
         Likes: <strong>67K</strong> | Comments: <strong>3.1K</strong>
       </div>
       <canvas id="instagramChart"></canvas>
@@ -130,9 +170,15 @@
 
     <!-- Facebook -->
     <div class="card facebook" data-platform="facebook">
+      <button
+        class="login-btn"
+        onclick="window.open('https://www.facebook.com/v16.0/dialog/oauth?client_id=YOUR_APP_ID&redirect_uri=YOUR_REDIRECT_URI&scope=public_profile,email,video_metrics', '_blank')"
+      >
+        Login
+      </button>
       <h2>📘 Facebook</h2>
       <div class="metrics">
-        Views: <strong>1.1M</strong> | Watch Time: <strong>3.8K hrs</strong><br>
+        Views: <strong>1.1M</strong> | Watch Time: <strong>3.8K hrs</strong><br />
         Reactions: <strong>75K</strong> | Shares: <strong>18K</strong>
       </div>
       <canvas id="facebookChart"></canvas>
@@ -141,20 +187,32 @@
 
     <!-- Twitter -->
     <div class="card twitter" data-platform="twitter">
+      <button
+        class="login-btn"
+        onclick="window.open('https://twitter.com/i/oauth2/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=tweet.read users.read offline.access&state=state&code_challenge=challenge&code_challenge_method=plain', '_blank')"
+      >
+        Login
+      </button>
       <h2>🐦 Twitter/X</h2>
       <div class="metrics">
-        Views: <strong>520K</strong> | Likes: <strong>34K</strong><br>
+        Views: <strong>520K</strong> | Likes: <strong>34K</strong><br />
         Retweets: <strong>14K</strong> | Comments: <strong>2.3K</strong>
       </div>
       <canvas id="twitterChart"></canvas>
-      <div class="tips">⚡ Tip: Post clips < 45s with hashtags for max reach.</div>
+      <div class="tips">⚡ Tip: Post clips &lt; 45s with hashtags for max reach.</div>
     </div>
 
     <!-- Skype -->
     <div class="card skype" data-platform="skype">
+      <button
+        class="login-btn"
+        onclick="alert('Skype login integration requires Microsoft OAuth & backend handling')"
+      >
+        Login
+      </button>
       <h2>📞 Skype</h2>
       <div class="metrics">
-        Video Calls: <strong>8.3K</strong> | Avg Call: <strong>15 mins</strong><br>
+        Video Calls: <strong>8.3K</strong> | Avg Call: <strong>15 mins</strong><br />
         Total Video Time: <strong>1.7M mins</strong>
       </div>
       <canvas id="skypeChart"></canvas>
@@ -164,98 +222,110 @@
   </div>
 
   <script>
-    // Search filter function
+    // Filter cards by platform search
     function filterCards() {
       const query = document.getElementById("searchBar").value.toLowerCase();
       const cards = document.querySelectorAll(".card");
-
-      cards.forEach(card => {
+      cards.forEach((card) => {
         const platform = card.dataset.platform.toLowerCase();
         card.style.display = platform.includes(query) ? "block" : "none";
       });
     }
 
-    // Chart data initialization
     window.onload = () => {
-      // YouTube chart
-      new Chart(document.getElementById('youtubeChart'), {
-        type: 'bar',
+      // YouTube Chart
+      new Chart(document.getElementById("youtubeChart"), {
+        type: "bar",
         data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-          datasets: [{
-            label: 'Daily Views',
-            data: [230, 390, 450, 380, 520],
-            backgroundColor: '#FF0000'
-          }]
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+          datasets: [
+            {
+              label: "Daily Views (k)",
+              data: [230, 390, 450, 380, 520],
+              backgroundColor: "#FF0000",
+            },
+          ],
         },
         options: {
-          plugins: { legend: { display: false }},
-          scales: { y: { beginAtZero: true } }
-        }
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } },
+        },
       });
 
-      // Instagram chart
-      new Chart(document.getElementById('instagramChart'), {
-        type: 'line',
+      // Instagram Chart
+      new Chart(document.getElementById("instagramChart"), {
+        type: "line",
         data: {
-          labels: ['Stories', 'Reels', 'Posts'],
-          datasets: [{
-            label: 'Engagement',
-            data: [180, 410, 290],
-            borderColor: '#C13584',
-            backgroundColor: 'rgba(193,53,132,0.2)',
-            tension: 0.4,
-            fill: true
-          }]
-        }
+          labels: ["Stories", "Reels", "Posts"],
+          datasets: [
+            {
+              label: "Engagement (k)",
+              data: [180, 410, 290],
+              borderColor: "#C13584",
+              backgroundColor: "rgba(193,53,132,0.2)",
+              tension: 0.4,
+              fill: true,
+            },
+          ],
+        },
+        options: { plugins: { legend: { display: false } } },
       });
 
-      // Facebook chart
-      new Chart(document.getElementById('facebookChart'), {
-        type: 'bar',
+      // Facebook Chart
+      new Chart(document.getElementById("facebookChart"), {
+        type: "bar",
         data: {
-          labels: ['Likes', 'Shares', 'Comments'],
-          datasets: [{
-            label: 'Engagement',
-            data: [340, 180, 150],
-            backgroundColor: '#3b5998'
-          }]
+          labels: ["Likes", "Shares", "Comments"],
+          datasets: [
+            {
+              label: "Engagement (k)",
+              data: [340, 180, 150],
+              backgroundColor: "#3b5998",
+            },
+          ],
         },
         options: {
-          plugins: { legend: { display: false }},
-          scales: { y: { beginAtZero: true } }
-        }
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } },
+        },
       });
 
-      // Twitter chart
-      new Chart(document.getElementById('twitterChart'), {
-        type: 'pie',
+      // Twitter Chart
+      new Chart(document.getElementById("twitterChart"), {
+        type: "pie",
         data: {
-          labels: ['Likes', 'Retweets', 'Replies'],
-          datasets: [{
-            data: [34, 14, 2.3],
-            backgroundColor: ['#1DA1F2', '#A7C7E7', '#B0D8F1']
-          }]
-        }
+          labels: ["Likes", "Retweets", "Replies"],
+          datasets: [
+            {
+              data: [34, 14, 2.3],
+              backgroundColor: ["#1DA1F2", "#A7C7E7", "#B0D8F1"],
+            },
+          ],
+        },
+        options: {
+          plugins: { legend: { position: "right" } },
+        },
       });
 
-      // Skype chart
-      new Chart(document.getElementById('skypeChart'), {
-        type: 'line',
+      // Skype Chart
+      new Chart(document.getElementById("skypeChart"), {
+        type: "line",
         data: {
-          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-          datasets: [{
-            label: 'Call Minutes',
-            data: [42000, 48000, 52000, 59000],
-            borderColor: '#00AFF0',
-            backgroundColor: 'rgba(0,175,240,0.2)',
-            fill: true,
-            tension: 0.3
-          }]
-        }
+          labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+          datasets: [
+            {
+              label: "Avg Call Duration (mins)",
+              data: [12, 15, 14, 16],
+              borderColor: "#00AFF0",
+              backgroundColor: "rgba(0,175,240,0.2)",
+              tension: 0.3,
+              fill: true,
+            },
+          ],
+        },
+        options: { plugins: { legend: { display: true } } },
       });
     };
   </script>
-
 </body>
 </html>
